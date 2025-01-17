@@ -80,6 +80,8 @@ impl PterodactylClient {
             .await?;
         println!("WebSocket authenticated.");
 
+        let ip_regex = Regex::new(r"\b(?:\d{1,3}\.){3}\d{1,3}\b").unwrap();
+
         // Handle incoming messages
         while let Some(msg) = read.next().await {
             match msg {
@@ -98,11 +100,16 @@ impl PterodactylClient {
                                             if let Some(content_start) = message.rfind("]: ") {
                                                 let content = &message[content_start + 3..];
 
-                                                // Send the entire message content to the channel
+                                                // Remove IP addresses from the content
+                                                let filtered_content =
+                                                    ip_regex.replace_all(content, "[REDACTED]");
+
+                                                // Send the filtered message content to the channel
                                                 channel_id
                                                     .send_message(
                                                         &discord_ctx.http,
-                                                        CreateMessage::new().content(&*content),
+                                                        CreateMessage::new()
+                                                            .content(&filtered_content),
                                                     )
                                                     .await?;
                                             }
