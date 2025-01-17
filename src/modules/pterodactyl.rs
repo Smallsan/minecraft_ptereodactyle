@@ -98,45 +98,13 @@ impl PterodactylClient {
                                             if let Some(content_start) = message.rfind("]: ") {
                                                 let content = &message[content_start + 3..];
 
-                                                // Handle chat messages
-                                                if content.contains("<") && content.contains(">") {
-                                                    if let (
-                                                        Some(username_start),
-                                                        Some(username_end),
-                                                    ) = (content.find('<'), content.find('>'))
-                                                    {
-                                                        let username = &content
-                                                            [username_start + 1..username_end];
-                                                        let chat_message =
-                                                            &content[username_end + 2..];
-
-                                                        let formatted_message = format!(
-                                                            "Minecraft: {} : \"{}\"",
-                                                            username, chat_message
-                                                        );
-
-                                                        channel_id
-                                                            .send_message(
-                                                                &discord_ctx.http,
-                                                                CreateMessage::new()
-                                                                    .content(&formatted_message),
-                                                            )
-                                                            .await?;
-                                                    }
-                                                }
-                                                // Handle join and leave messages
-                                                else if let Some(pos) = content.find(" joined the game").or(content.find(" left the game")) {
-                                                    let player_name = content[..pos].trim();
-                                                    let action = if content.contains("joined") { "joined" } else { "left" };
-                                                    let formatted_message = format!("{} {} the game", player_name, action);
-                                                    
-                                                    channel_id
-                                                        .send_message(
-                                                            &discord_ctx.http,
-                                                            CreateMessage::new().content(&formatted_message),
-                                                        )
-                                                        .await?;
-                                                }
+                                                // Send the entire message content to the channel
+                                                channel_id
+                                                    .send_message(
+                                                        &discord_ctx.http,
+                                                        CreateMessage::new().content(&*content),
+                                                    )
+                                                    .await?;
                                             }
                                         }
                                     }
