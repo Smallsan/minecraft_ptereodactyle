@@ -1,5 +1,5 @@
 [package]
-name = "thorny_garden"
+name = "pterodactyl_discord_bridge"
 version = "0.1.0"
 edition = "2021"
 

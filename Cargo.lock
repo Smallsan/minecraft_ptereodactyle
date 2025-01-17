@@ -1077,6 +1077,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "pterodactyl_discord_bridge"
+version = "0.1.0"
+dependencies = [
+ "futures-util",
+ "reqwest 0.12.12",
+ "serde",
+ "serde_json",
+ "serenity",
+ "tokio",
+ "tokio-tungstenite 0.26.1",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.38"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1714,21 +1729,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.96",
-]
-
-[[package]]
-name = "thorny_garden"
-version = "0.1.0"
-dependencies = [
- "futures-util",
- "reqwest 0.12.12",
- "serde",
- "serde_json",
- "serenity",
- "tokio",
- "tokio-tungstenite 0.26.1",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
