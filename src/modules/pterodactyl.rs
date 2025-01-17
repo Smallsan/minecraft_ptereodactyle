@@ -1,4 +1,5 @@
 use futures_util::{SinkExt, StreamExt};
+use regex::Regex;
 use reqwest::{header, Client};
 use serde::{Deserialize, Serialize};
 use serenity::all::{ChannelId, Context, CreateMessage, CreateThread};
@@ -109,7 +110,7 @@ impl PterodactylClient {
                                                     .send_message(
                                                         &discord_ctx.http,
                                                         CreateMessage::new()
-                                                            .content(&filtered_content),
+                                                            .content(&*filtered_content),
                                                     )
                                                     .await?;
                                             }
